@@ -9,7 +9,7 @@ var backgroundImg
 
 var score = 0;
 
-//game states      
+//estados de jogo      
 var PLAY = 1;
 var END = 0;
 var gameState = PLAY;
@@ -28,7 +28,7 @@ function preload(){
   obsBottom2 = loadImage("assets/obsBottom2.png")
   obsBottom3 = loadImage("assets/obsBottom3.png")
   
-  gameOverImg= loadImage("assets/gameOver.png")
+  gameOverImg= loadImage("assets/fimdejogo.png")
   restartImg = loadImage("assets/restart.png")
 
 jumpSound = loadSound("assets/jump.mp3");
@@ -39,31 +39,31 @@ dieSound = loadSound("assets/die.mp3");
 function setup(){
 
   createCanvas(400,400)
-//background image
+//imagem de plano de fundo
 bg = createSprite(165,485,1,1);
 getBackgroundImg();
 
 
-//creating top and bottom grounds
+//criando canto superior e inferior
 bottomGround = createSprite(200,390,800,20);
 bottomGround.visible = false;
 
 topGround = createSprite(200,10,800,20);
 topGround.visible = false;
       
-//creating balloon     
+//criando o balão   
 balloon = createSprite(100,200,20,50);
 balloon.addAnimation("balloon",balloonImg);
 balloon.scale = 0.2;
 balloon.debug = true;
 
 
-//initialising groups
+//inicializando grupos
 topObstaclesGroup = new Group();
 bottomObstaclesGroup = new Group();
 barGroup = new Group();
 
-//creating game over and restart sprites
+//criando sprites de fim de jogo e reiniciar
 gameOver = createSprite(220,200);
 restart = createSprite(220,240);
 gameOver.addImage(gameOverImg);
@@ -81,23 +81,23 @@ function draw() {
 
   if(gameState === PLAY){
 
-    //making the hot air balloon jump
+    //fazendo o balão de ar quente pular
     if(keyDown("space")) {
       balloon.velocityY = -6 ;
       jumpSound.play();
     }
 
-    //adding gravity
+    //adicionando gravidade
      balloon.velocityY = balloon.velocityY + 2;
 
      
     Bar();
 
-     //spawning top and bottom obstacles
+     //gerando obstáculos no topo e no chão
      spawnObstaclesTop();
      spawnObstaclesBottom();
 
-//condition for END state
+//condição para o estado END
 if(topObstaclesGroup.isTouching(balloon) || balloon.isTouching(topGround)
 || balloon.isTouching(bottomGround) || bottomObstaclesGroup.isTouching(balloon)){
 
@@ -106,7 +106,7 @@ dieSound.play();
 }
 
 
-//Adding AI for balloon when touching topObstaclesGroup and topGround
+//Adicionando AI para o balão qaundo tocar topObstaclesGroup e topGround
 
 /*if(topObstaclesGroup.isTouching(balloon) || balloon.isTouching(topGround)){
   balloon.velocityY = 6 ;
@@ -114,7 +114,7 @@ dieSound.play();
 }*/
 
 
-//Adding AI for balloon when touching topObstaclesGroup and topGround
+//Adicionando AI para o balão qaundo tocar topObstaclesGroup e topGround
 
 /*if(balloon.isTouching(bottomGround) || bottomObstaclesGroup.isTouching(balloon)){
   balloon.velocityY = -6 ;
@@ -131,20 +131,20 @@ dieSound.play();
       restart.visible = true;
       restart.depth = restart.depth+1
           
-          //all sprites should stop moving in the END state
+          //todos os sprites devem parar de se mover no estado END
           balloon.velocityX = 0;
           balloon.velocityY = 0;
           topObstaclesGroup.setVelocityXEach(0);
           bottomObstaclesGroup.setVelocityXEach(0);
           barGroup.setVelocityXEach(0);
           
-          //setting -1 lifetime so that obstacles don't disappear in the END state
+          //definindo -1 tempo de vida para que os obstáculos não desapareçam no estado END
           topObstaclesGroup.setLifetimeEach(-1);
           bottomObstaclesGroup.setLifetimeEach(-1);
          
           balloon.y = 200;
           
-          //resetting the game
+          //reiniciando o jogo
           if(mousePressedOver(restart)) 
           {
                 reset();
@@ -178,10 +178,10 @@ function spawnObstaclesTop()
 obstacleTop.scale = 0.1;
 obstacleTop.velocityX = -4;
 
-//random y positions for top obstacles
+//posições y aleatórias para os obstáculos do topo
 obstacleTop.y = Math.round(random(10,100));
 
-//generate random top obstacles
+//gerar obstáculos aleatórios no topo
 var rand = Math.round(random(1,2));
 switch(rand) {
   case 1: obstacleTop.addImage(obsTop1);
@@ -191,7 +191,7 @@ switch(rand) {
   default: break;
 }
 
- //assign lifetime to the variable
+ //definir tempo de vida para a variável
 obstacleTop.lifetime = 100;
 
 balloon.depth = balloon.depth + 1;
@@ -215,7 +215,7 @@ obstacleBottom.velocityX = -4;
 
 
 
-//generate random bottom obstacles
+//gerar obstáculos aleatórios no chão
 var rand = Math.round(random(1,3));
 switch(rand) {
   case 1: obstacleBottom.addImage(obsBottom1);
@@ -227,7 +227,7 @@ switch(rand) {
   default: break;
 }
 
- //assign lifetime to the variable
+ //definir tempo de vida para a variável
 obstacleBottom.lifetime = 100;
 
 balloon.depth = balloon.depth + 1;
@@ -264,12 +264,12 @@ function Score()
         textFont("algerian");
         textSize(30);
         fill("yellow");
-        text("Score: "+ score, 250, 50);
+        text("Pontuação: "+ score, 250, 50);
        
   
 }
 
-// using API calls to set the background image according to time
+//usando chamadas de API para definir a imagem de plano de fundo de acordo com o tempo
 async function getBackgroundImg(){
   var response = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata");
   var responseJSON = await response.json();
